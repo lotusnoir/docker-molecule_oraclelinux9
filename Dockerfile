@@ -4,7 +4,6 @@ LABEL maintainer="lotusnoir"
 ENV container docker
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
-ENV DEBIAN_FRONTEND noninteractive
 
 WORKDIR /lib/systemd/system/sysinit.target.wants/
 RUN (for i in *; do [ "${i}" = "systemd-tmpfiles-setup.service" ] || rm -f "${i}"; done); \
@@ -17,11 +16,11 @@ RUN (for i in *; do [ "${i}" = "systemd-tmpfiles-setup.service" ] || rm -f "${i}
     rm -f /lib/systemd/system/anaconda.target.wants/*; \
     yum -y install rpm dnf-plugins-core \
     && yum -y update \
-    && yum -y install epel-release initscripts sudo which python3-pip wget \
+    && yum -y install oracle-epel-release-el9 initscripts sudo which python3-pip wget \
     && python3 -m pip install --no-cache-dir --upgrade pip \
     && python3 -m pip install --no-cache-dir ansible cryptography jmespath \
     && yum clean all && rm -rf /tmp/* /var/tmp/* /usr/share/doc /usr/share/man \
     && wget -q -O /usr/local/bin/goss https://github.com/aelsabbahy/goss/releases/download/v0.3.21/goss-linux-amd64 && chmod +x /usr/local/bin/goss
 
 VOLUME [ "/sys/fs/cgroup" ]
-ENTRYPOINT ["/lib/systemd/systemd", "systemctl start dbus"]
+ENTRYPOINT ["/lib/systemd/systemd"]
