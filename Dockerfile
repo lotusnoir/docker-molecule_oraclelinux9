@@ -26,6 +26,9 @@ RUN (for i in *; do [ "${i}" = "systemd-tmpfiles-setup.service" ] || rm -f "${i}
     rm -f /lib/systemd/system/basic.target.wants/*;\
     rm -f /lib/systemd/system/anaconda.target.wants/*;
 
-#VOLUME [ "/sys/fs/cgroup" ]
+RUN sed -i 's/PrivateNetwork=yes/PrivateNetwork=no/' /lib/systemd/system/systemd-localed.service && sed -i 's/PrivateDevices=yes/PrivateDevices=no/' /lib/systemd/system/systemd-localed.service \
+    && sed -i 's/PrivateNetwork=yes/PrivateNetwork=no/' /lib/systemd/system/systemd-hostnamed.service && sed -i 's/PrivateDevices=yes/PrivateDevices=no/' /lib/systemd/system/systemd-hostnamed.service \
+    && sed -i 's/PrivateNetwork=yes/PrivateNetwork=no/' /lib/systemd/system/systemd-timedated.service && sed -i 's/PrivateDevices=yes/PrivateDevices=no/' /lib/systemd/system/systemd-timedated.service
+
 VOLUME [ "/tmp", "/run", "/run/lock" ]
 ENTRYPOINT ["/lib/systemd/systemd"]
