@@ -1,4 +1,4 @@
-# Docker Image with oraclelinux9 base image 
+# Docker Image with oraclelinux9 base image
 
 This repo was created in order to test ansible roles with molecule.
 
